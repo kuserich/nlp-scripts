@@ -31,5 +31,6 @@ source_file_path = args.src
 output_file_path = args.out
 
 with open(output_file_path, 'w') as output_file:
-    for clean_line in [de_preprocess(line, language) for line in open(source_file_path, 'r')]:
+    for line in open(source_file_path, 'r'):
+        clean_line = de_preprocess(line, language)
         output_file.write(' '.join(clean_line))
