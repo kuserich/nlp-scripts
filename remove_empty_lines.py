@@ -11,7 +11,7 @@ references = []
 outfile_handlers = []
 
 for file in files:
-    outfile = file + ".out.txt"
+    outfile = file + ".out"
     outfile_handlers.append(open(outfile, 'w'))
 
     handler = open(file, 'r')
