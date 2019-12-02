@@ -1,22 +1,22 @@
 import argparse
 from mosestokenizer import *
 
-def de_preprocess(item, language):
+def de_preprocess(references, language):
     clean_references = []
-    # for item in references:
-    item = item.replace("@@ ", "")
-    item = item.replace("@@@", "")
-    item = item.replace("@@@@", "")
-    item = item.replace("<eos>", "")
-    item = item.replace("@str", "")
+    for item in references:
+        # item = item.replace("@@ ", "")
+        item = item.replace("@@@", "")
+        item = item.replace("@@@@", "")
+        item = item.replace("<eos>", "")
+        item = item.replace("@str@@", "")
 
-    item = item.replace("&amp;", "")
-    item = item.replace("# 160 ;", "")
+        if len(item) > 0:
+            clean_references.append(item)
 
-    item = item.replace("\n", "")
-    with MosesDetokenizer(language) as detokenize:
-        item_clean = detokenize(item.split(" "))
-        clean_references.append(item_clean)
+    # item = item.replace("\n", "")
+    # with MosesDetokenizer(language) as detokenize:
+    #     item_clean = detokenize(item.split(" "))
+    #     clean_references.append(item_clean)
     return clean_references
 
 parser = argparse.ArgumentParser(description="Compute BLEU score")
@@ -32,5 +32,5 @@ output_file_path = args.out
 
 with open(output_file_path, 'w') as output_file:
     for line in open(source_file_path, 'r'):
-        clean_line = de_preprocess(line, language)
-        output_file.write(' '.join(clean_line))
+        clean_line = de_preprocess(line.split(), language)
+        output_file.write(" ".join(clean_line) + "\n")
