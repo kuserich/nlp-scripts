@@ -83,7 +83,6 @@ def get_header_line():
     )
 
 
-
 def construct_line_from_metrics(bleu_metrics, file_metrics):
     return "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (
         file_metrics["beam"],
