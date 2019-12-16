@@ -8,10 +8,19 @@ def read_file(filename):
     return clean_lines
 
 
+def clean_line(line):
+    line = line.replace("@@@", "")
+    line = line.replace("@@@@", "")
+    line = line.replace("<eos>", "")
+    line = line.replace("@str@@", "")
+    return line
+
+
 def compute_line_stats(lines):
     token_counts = []
     total = 0
     for line in lines:
+        line = clean_line(line)
         tokens = line.split()
         num_tokens = len(tokens)
         token_counts.append(num_tokens)
