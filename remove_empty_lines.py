@@ -1,6 +1,7 @@
 import sys
 import os
 
+
 def remove_file(filename):
     if os.path.exists(filename):
         os.remove(filename)
@@ -28,7 +29,7 @@ print("Max line length detected: %s" % max_length)
 
 for i in range(max_length):
     if i % 1000 == 0:
-        print("%d percent complete" % (i/max_length*100), end="\r")
+        print("%d percent complete" % (i/max_length*100))
 
     min_l = min([0 if x[i] == '\n' else len(x[i]) for x in references])
     has_empty_lines = min_l == 0
