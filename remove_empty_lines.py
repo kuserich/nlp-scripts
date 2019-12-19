@@ -27,9 +27,10 @@ print(" %s" % '\n '.join(files))
 
 print("Max line length detected: %s" % max_length)
 
+num_skipped_lines = 0
 for i in range(max_length):
     if i % 1000 == 0:
-        print("%d percent complete" % (i/max_length*100))
+        print("%d percent complete" % (i/max_length*100), end="\r")
 
     min_l = min([0 if x[i] == '\n' else len(x[i]) for x in references])
     has_empty_lines = min_l == 0
@@ -38,4 +39,7 @@ for i in range(max_length):
         for j in range(len(outfile_handlers)):
             outfile_handlers[j].write(references[j][i])
     else:
+        num_skipped_lines += 1
         print("Skipping line %d" % i)
+
+print("Removed %s lines" % num_skipped_lines)
