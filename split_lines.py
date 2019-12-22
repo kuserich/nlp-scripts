@@ -16,25 +16,33 @@ def get_index_from_line(line, borders):
 
 
 def get_empty_bucket(borders):
-    buckets = {}
+    buckets = {
+        "src": {},
+        "other": {}
+    }
     for border in borders:
-        buckets[border] = []
+        buckets["src"][border] = []
+        buckets["other"][border] = []
     return buckets
 
 
-def split_file_by_sentence_length(filename, borders):
-    lines = read_file(filename)
+def split_file_by_sentence_length(src, other, borders):
+    src_lines = read_file(src)
+    other_lines = read_file(other)
     buckets = get_empty_bucket(borders)
-    for line in lines:
+    for i, line in enumerate(src_lines):
         index = get_index_from_line(line, borders)
-        buckets[borders[index]].append(line)
+        buckets["src"][borders[index]].append(line)
+        buckets["other"][borders[index]].append(other_lines[i])
 
-    for key in buckets.keys():
-        with open(filename + "_" + str(key) + ".txt", "w") as outfile:
-            for line in buckets[key]:
-                outfile.write(line)
+    for key in borders:
+        with open(other + "_" + str(key) + ".txt", "w") as other_outfile:
+            with open(src + "_" + str(key) + ".txt", "w") as src_outfile:
+                for line in buckets["src"][key]:
+                    src_outfile.write(line)
 
-
+                for line in buckets["other"][key]:
+                    other_outfile.write(line)
 
 
 def main():
@@ -42,9 +50,10 @@ def main():
         print("Error! Please provide a file")
         exit()
 
-    filename = sys.argv[1]
+    src = sys.argv[1]
+    other = sys.argv[2]
     borders = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
-    split_file_by_sentence_length(filename, borders)
+    split_file_by_sentence_length(src, other, borders)
 
 
 if __name__ == '__main__':
