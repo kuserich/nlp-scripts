@@ -27,7 +27,8 @@ def get_values_from_line(line):
 
 store = {}
 with gzip.open(args.src) as infile:
-    for line in infile:
+    lines = infile.read()
+    for line in lines:
         src, trg, probs, *rest = get_values_from_line(line)
 
         if not src in store:
