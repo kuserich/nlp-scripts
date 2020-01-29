@@ -1,4 +1,3 @@
-import gzip
 import argparse
 
 
@@ -26,9 +25,8 @@ def get_values_from_line(line):
     return src, trg, probs
 
 store = {}
-with gzip.open(args.src) as infile:
-    lines = infile.read()
-    for line in lines:
+with open(args.src) as infile:
+    for line in infile:
         src, trg, probs, *rest = get_values_from_line(line)
 
         if not src in store:
