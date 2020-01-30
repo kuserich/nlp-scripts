@@ -53,5 +53,5 @@ for one, two in zip(one_handler, two_handler):
 with open(args.out, "w") as outfile:
     for key in store.keys():
         if "one" in store[key] and "two" in store[key]:
-            outfile.write("%s\n" % store[key])
+            outfile.write("%s,%s\n" % (store[key]["one"], store[key]["two"]))
 
