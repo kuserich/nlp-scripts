@@ -37,26 +37,27 @@ for one, two in zip(one_handler, two_handler):
     two_src, two_trg, two_probs = get_values_from_line(two)
 
     if one_src not in store:
-        store[one_src] = {"one": one_probs[2]}
+        store[one_src] = {}
+
+    if "one" not in store[one_src]:
+        store[one_src]["one"] = one_probs[2]
     else:
-        if "one" not in store[one_src]:
-            store[one_src] = {"one": one_probs[2]}
-        else:
-            if one_probs[2] > store[one_src]["one"]:
-                store[one_src]["one"] = one_probs[2]
+        if one_probs[2] > store[one_src]["one"]:
+            store[one_src]["one"] = one_probs[2]
 
     if two_src not in store:
-        store[two_src] = {"two": two_probs[2]}
+        store[two_src] = {}
+
+    if "two" not in store[two_src]:
+        store[two_src]["two"] = two_probs[2]
     else:
-        if "two" not in store[two_src]:
-            store[two_src] = {"two": two_probs[2]}
-        else:
-            if two_probs[2] > store[two_src]["two"]:
-                store[two_src]["two"] = two_probs[2]
+        if two_probs[2] > store[two_src]["two"]:
+            store[two_src]["two"] = two_probs[2]
 
 
 with open(args.out, "w") as outfile:
+    outfile.write("one,two\n")
     for key in store.keys():
-        if "one" in store[key] and "two" in store[key]:
-            outfile.write("%s,%s\n" % (store[key]["one"], store[key]["two"]))
+            if "one" in store[key] and "two" in store[key]:
+                outfile.write("%s,%s\n" % (store[key]["one"], store[key]["two"]))
 
