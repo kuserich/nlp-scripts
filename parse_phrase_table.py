@@ -5,7 +5,7 @@ def get_argument_parser():
     parser = argparse.ArgumentParser(description="Parse best values from phrase table")
     parser.add_argument("--src",
                         type=str,
-                        help="Path to the file containing the alignment pairs.")
+                        help="Path to the phrase table.")
     parser.add_argument("--out",
                         type=str,
                         help="Output file path")
@@ -15,6 +15,7 @@ def get_argument_parser():
 parser = get_argument_parser()
 args = parser.parse_args()
 
+
 def get_values_from_line(line):
     src, trg, probs, *rest = line.split('|||')
     src = src.strip()
@@ -23,6 +24,7 @@ def get_values_from_line(line):
     probs = [float(x) for x in probs.split()]
 
     return src, trg, probs
+
 
 store = {}
 with open(args.src) as infile:
