@@ -36,15 +36,14 @@ for one, two in zip(one_handler, two_handler):
     one_src, one_trg, one_probs = get_values_from_line(one)
     two_src, two_trg, two_probs = get_values_from_line(two)
 
-
     if not one_src in store:
-        store[one_src]["one"] = one_probs[2]
+        store[one_src] = {"one": one_probs[2]}
     else:
         if one_probs[2] > store[one_src]:
             store[one_src]["one"] = one_probs[2]
 
     if not two_src in store:
-        store[two_src]["two"] = two_probs[2]
+        store[two_src] = {"two": two_probs[2]}
     else:
         if two_probs[2] > store[two_src]:
             store[two_src]["two"] = two_probs[2]
