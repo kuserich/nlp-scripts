@@ -36,6 +36,21 @@ We noticed in our alignments that the number of alignment pairs does not
 match the number of tokens in either of the sequences.
 This opens the discussion for how the 'total distance', i.e. the sum of
 all non-monotonic alignments, should be normalized.
+
+This script writes a CSV file with all statistics, one line of
+statistics per line of alignments (i.e. one per sentence).
+
+The statistics include:
+    - Total Distance: Total difference between alignments where i != j
+    - Backward Distance: Total difference between alignments where i > j,
+        i.e. total difference where target token appears before source token
+    - Forward Distance: Total difference between alignments where i < j,
+        i.e. total difference where source tokean appears before target token
+    - Epsilon Required: The minimum number of epsilon tokens required to
+        resolve all alignments where i < j such that i >= j for all alignments
+    - Num Pairs: Number of alignments
+    - SRC Len: Length of the source sentence
+    - TRG Len: Length of the target sentence
 """
 parser = get_argument_parser()
 args = parser.parse_args()
@@ -51,6 +66,8 @@ with open(alignments_file, "r") as file:
     for index, line in enumerate(file):
 
         total_distance = 0
+        forward_distance = 0
+        backward_distance = 0
         number_of_pairs = 0
         src_len = len(corpus[index].split("|||")[0].split())
         trg_len = len(corpus[index].split("|||")[1].split())
@@ -60,9 +77,10 @@ with open(alignments_file, "r") as file:
             number_of_pairs += 1
             if i > j:
                 total_distance += (i-j)
+                backward_distance += (i-j)
                 # additional epsilon tokens are only needed if the given mismatch
-                # still exists previous mismatches were eliminated with epsilon
-                # tokens in tokens t_k such that k < j
+                # still exists after previous mismatches were eliminated with
+                # epsilon tokens in tokens t_k such that k < j
                 #
                 # e.g.
                 #
@@ -80,13 +98,19 @@ with open(alignments_file, "r") as file:
                 # hence we simply compute the difference and take zero if it zero or
                 # negative.
                 epsilon_required += max(((i-j) - epsilon_required), 0)
+
+            if j < i:
+                total_distance += (j-i)
+                forward_distance += (j-i)
+
         statistics.append(
-            (total_distance, epsilon_required, number_of_pairs, src_len, trg_len)
+            (total_distance, backward_distance, forward_distance, epsilon_required, number_of_pairs, src_len, trg_len)
         )
 
 with open(output_file_path, "w") as outfile:
-    outfile.write("total_distance,epsilon_required,num_pairs,src_len,trg_len\n")
+    outfile.write("total_distance,backward_distance,forward_distance,epsilon_required,num_pairs,src_len,trg_len\n")
     for total_distance, epsilon_required, num_pairs, src_len, trg_len in statistics:
         outfile.write(
-            "%s,%s,%s,%s,%s\n" % (total_distance, epsilon_required, num_pairs, src_len, trg_len)
+            "%s,%s,%s,%s,%s,%s,%s\n"
+            % (total_distance, backward_distance, forward_distance, epsilon_required, num_pairs, src_len, trg_len)
         )
