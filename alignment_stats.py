@@ -109,7 +109,7 @@ with open(alignments_file, "r") as file:
 
 with open(output_file_path, "w") as outfile:
     outfile.write("total_distance,backward_distance,forward_distance,epsilon_required,num_pairs,src_len,trg_len\n")
-    for total_distance, epsilon_required, num_pairs, src_len, trg_len in statistics:
+    for total_distance, backward_distance, forward_distance, epsilon_required, num_pairs, src_len, trg_len in statistics:
         outfile.write(
             "%s,%s,%s,%s,%s,%s,%s\n"
             % (total_distance, backward_distance, forward_distance, epsilon_required, num_pairs, src_len, trg_len)
