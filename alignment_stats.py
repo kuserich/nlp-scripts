@@ -99,7 +99,7 @@ with open(alignments_file, "r") as file:
                 # negative.
                 epsilon_required += max(((i-j) - epsilon_required), 0)
 
-            if j < i:
+            if j > i:
                 total_distance += (j-i)
                 forward_distance += (j-i)
 
