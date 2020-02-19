@@ -84,7 +84,7 @@ with open(alignments_file, "r") as file:
                 #
                 # e.g.
                 #
-                # >>> Madam   President     ,     on    a                  point of order .
+                #     Madam   President     ,     on    a                  point of order .
                 #     Frau    Präsidentin   ,     zur   Geschäftsordnung   .
                 #     0-0     0-1           2-2   5-3   7-4                8-5
                 #
