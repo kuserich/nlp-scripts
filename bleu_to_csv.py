@@ -3,6 +3,10 @@ import logging
 import argparse
 import json
 
+"""
+Collects all BLEU scores from a directory into a single CSV file.
+"""
+
 LOGGING_LEVELS = {
     "DEBUG": logging.DEBUG,
     "INFO": logging.INFO,

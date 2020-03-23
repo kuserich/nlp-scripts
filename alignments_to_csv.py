@@ -25,6 +25,10 @@ def get_alignment_pairs_from_line(line):
     for pair in pairs:
         yield [int(x) for x in pair.split("-")]
 
+"""
+Transforms alignments output file from fast_align into a
+CSV file.
+"""
 
 parser = get_argument_parser()
 args = parser.parse_args()

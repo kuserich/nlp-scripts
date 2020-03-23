@@ -31,6 +31,8 @@ def get_alignment_pairs_from_line(line):
 
 
 """
+This script computes normalized distances and epsilon tokens required.
+
 This script requires both the alignments as well as the parallel corpus.
 We noticed in our alignments that the number of alignment pairs does not
 match the number of tokens in either of the sequences.

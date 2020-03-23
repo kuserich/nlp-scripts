@@ -1,5 +1,9 @@
 import sys
 
+"""
+Prints the number of lines in a text file that contain
+_only_ epsilon tokens.
+"""
 
 def clean_line(line):
     line = line.replace("@@@", "")
